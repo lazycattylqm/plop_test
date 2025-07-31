@@ -1,0 +1,19 @@
+{
+  "name": "with-plop",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "plop java-class",
+    "g": "plop java-class",
+    "auto-generate": "node index.js",
+    "gen": "node generate.js"
+  },
+  "dependencies": {
+    "plop": "^4.0.1"
+  }
+}
