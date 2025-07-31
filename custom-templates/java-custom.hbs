@@ -1,0 +1,160 @@
+package {{packageName}};
+
+import java.util.*;
+import java.time.LocalDateTime;
+
+/**
+ * {{className}} 自定义模板类
+ * 这是使用绝对路径模板生成的类
+ * 
+ * @author 自定义模板
+ * @version 2.0
+ * @since {{now}}
+ */
+public class {{className}} {
+    
+    // 静态字段
+    private static final String CLASS_VERSION = "2.0";
+    private static final LocalDateTime CREATED_AT = LocalDateTime.now();
+    
+    // 实例字段
+    private Long id;
+    private String name;
+    private LocalDateTime createdTime;
+    private Map<String, Object> properties;
+    
+    /**
+     * 默认构造函数
+     */
+    public {{className}}() {
+        this.createdTime = LocalDateTime.now();
+        this.properties = new HashMap<>();
+        System.out.println("{{className}} 实例已创建 - 使用自定义绝对路径模板");
+    }
+    
+    /**
+     * 带参数的构造函数
+     * 
+     * @param id 唯一标识
+     * @param name 名称
+     */
+    public {{className}}(Long id, String name) {
+        this();
+        this.id = id;
+        this.name = name;
+    }
+    
+    // Getter 和 Setter 方法
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+    
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+    
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
+    }
+    
+    /**
+     * 添加属性
+     * 
+     * @param key 属性键
+     * @param value 属性值
+     */
+    public void addProperty(String key, Object value) {
+        this.properties.put(key, value);
+    }
+    
+    /**
+     * 获取属性
+     * 
+     * @param key 属性键
+     * @return 属性值
+     */
+    public Object getProperty(String key) {
+        return this.properties.get(key);
+    }
+    
+    /**
+     * 自定义方法：获取类信息
+     * 
+     * @return 类信息字符串
+     */
+    public String getClassInfo() {
+        return String.format("Class: %s, Version: %s, Package: %s", 
+                           this.getClass().getSimpleName(), 
+                           CLASS_VERSION, 
+                           "{{packageName}}");
+    }
+    
+    /**
+     * 自定义方法：执行业务逻辑
+     * 
+     * @param operation 操作类型
+     * @return 执行结果
+     */
+    public String executeOperation(String operation) {
+        switch (operation.toLowerCase()) {
+            case "create":
+                return "创建操作完成 - " + this.name;
+            case "update":
+                return "更新操作完成 - " + this.name;
+            case "delete":
+                return "删除操作完成 - " + this.name;
+            default:
+                return "未知操作: " + operation;
+        }
+    }
+    
+    /**
+     * equals 方法
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        
+        {{className}} that = ({{className}}) obj;
+        return Objects.equals(id, that.id) && 
+               Objects.equals(name, that.name);
+    }
+    
+    /**
+     * hashCode 方法
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+    
+    /**
+     * toString 方法
+     */
+    @Override
+    public String toString() {
+        return "{{className}}{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdTime=" + createdTime +
+                ", propertiesCount=" + properties.size() +
+                '}';
+    }
+}

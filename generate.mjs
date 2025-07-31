@@ -1,10 +1,45 @@
 // 使用真正的 Plop API - 命令行参数版本
 import nodePlop from 'node-plop';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// 从命令行参数获取类名和包名，如果没有提供则使用默认值
+// 从命令行参数获取类名、包名和模板路径
 const args = process.argv.slice(2);
 const className = args[0] || 'User';
 const packageName = args[1] || 'com.example.demo';
+const templateTypeOrPath = args[2] || 'basic';
+
+// 预定义的模板映射
+const templateMap = {
+  'basic': 'plop-templates/java-class.hbs',
+  'service': 'plop-templates/java-service.hbs',
+  'controller': 'plop-templates/java-controller.hbs',
+  'entity': 'plop-templates/java-entity.hbs'
+};
+
+// 确定模板文件路径
+let templateFile;
+let templateType;
+
+// 检查是否为绝对路径
+const isAbsolutePath = /^([a-zA-Z]:\\|\\\\|\/)/.test(templateTypeOrPath);
+
+if (isAbsolutePath) {
+  // 如果是绝对路径，直接使用
+  templateFile = templateTypeOrPath;
+  templateType = 'custom';
+  console.log(`✓ 使用绝对路径模板: ${templateFile}`);
+} else if (templateMap[templateTypeOrPath]) {
+  // 如果是预定义类型，使用映射
+  templateType = templateTypeOrPath;
+  templateFile = templateMap[templateType];
+  console.log(`✓ 使用预定义模板类型: ${templateType}`);
+} else {
+  // 假设是相对路径
+  templateFile = templateTypeOrPath;
+  templateType = 'custom';
+  console.log(`✓ 使用相对路径模板: ${templateFile}`);
+}
 
 // 验证类名格式
 if (!/^[A-Z][a-zA-Z0-9]*$/.test(className)) {
@@ -20,14 +55,18 @@ if (!/^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)*$/.test(packageName)) {
 
 const answers = {
   className,
-  packageName
+  packageName,
+  templateType,
+  templateFile
 };
 
-async function generateJavaClass () {
+async function generateJavaClass() {
   try {
     console.log('正在使用真正的 Plop API 生成 Java 类...');
     console.log(`类名: ${answers.className}`);
     console.log(`包名: ${answers.packageName}`);
+    console.log(`模板类型: ${answers.templateType}`);
+    console.log(`模板文件: ${answers.templateFile}`);
 
     // 使用 node-plop 加载配置 - 需要 await
     const plop = await nodePlop('./plopfile.js');

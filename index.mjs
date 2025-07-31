@@ -4,7 +4,9 @@ import nodePlop from 'node-plop';
 // 定义固定的参数
 const answers = {
   className: 'User',
-  packageName: 'com.example.demo'
+  packageName: 'com.example.demo',
+  templateType: 'basic',
+  templateFile: 'plop-templates/java-class.hbs'
 };
 
 async function generateJavaClass () {
