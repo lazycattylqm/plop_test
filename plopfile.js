@@ -98,28 +98,28 @@ module.exports = function (plop) {
           // 检查是否为绝对路径（Windows 或 Unix 风格）
           const isAbsolute = /^([a-zA-Z]:\\|\\\\|\/)/.test(value);
           const isRelative = !isAbsolute;
-          
+
           if (isAbsolute) {
             console.log(`\n✓ 使用绝对路径模板: ${value}`);
           } else {
             console.log(`\n✓ 使用相对路径模板: ${value}`);
           }
-          
+
           return true;
         }
       }
     ],
-    actions: function(data) {
+    actions: function (data) {
       const path = require('path');
       let templateFile = data.templateFile;
-      
+
       // 如果不是绝对路径，解析为相对于当前工作目录的路径
       if (!path.isAbsolute(templateFile)) {
         templateFile = path.resolve(process.cwd(), templateFile);
       }
-      
+
       console.log(`\n📁 使用模板文件: ${templateFile}`);
-      
+
       return [
         {
           type: 'add',

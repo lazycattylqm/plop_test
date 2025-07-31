@@ -60,7 +60,7 @@ const answers = {
   templateFile
 };
 
-async function generateJavaClass() {
+async function generateJavaClass () {
   try {
     console.log('正在使用真正的 Plop API 生成 Java 类...');
     console.log(`类名: ${answers.className}`);
