@@ -1,34 +1,57 @@
 const fs = require('fs');
 const path = require('path');
+const handlebars = require('handlebars');
 
 // 定义固定的参数
-const className = 'User';
-const packageName = 'com.example.demo';
+const answers = {
+  className: 'User',
+  packageName: 'com.example.demo'
+};
 
-console.log('正在生成 Java 类...');
-console.log(`类名: ${className}`);
-console.log(`包名: ${packageName}`);
+// 注册 Handlebars helper（模拟 Plop 的 helper）
+handlebars.registerHelper('packageToPath', function (packageName) {
+  return packageName.replace(/\./g, '/');
+});
 
-// 读取模板文件
-const templatePath = path.join(__dirname, 'plop-templates', 'java-class.hbs');
-let template = fs.readFileSync(templatePath, 'utf8');
+async function generateJavaClass () {
+  try {
+    console.log('正在使用 Plop 模板生成 Java 类...');
+    console.log(`类名: ${answers.className}`);
+    console.log(`包名: ${answers.packageName}`);
 
-// 替换模板变量
-template = template.replace(/\{\{className\}\}/g, className);
-template = template.replace(/\{\{packageName\}\}/g, packageName);
+    // 读取 Plop 模板文件
+    const templatePath = path.join(__dirname, 'plop-templates', 'java-class.hbs');
+    const templateContent = fs.readFileSync(templatePath, 'utf8');
 
-// 创建目标目录
-const packagePath = packageName.replace(/\./g, '/');
-const targetDir = path.join(__dirname, 'src', 'main', 'java', packagePath);
-const targetFile = path.join(targetDir, `${className}.java`);
+    // 编译 Handlebars 模板
+    const template = handlebars.compile(templateContent);
 
-// 确保目录存在
-fs.mkdirSync(targetDir, { recursive: true });
+    // 渲染模板
+    const renderedContent = template(answers);
 
-// 写入文件
-fs.writeFileSync(targetFile, template);
+    // 创建目标目录
+    const packagePath = answers.packageName.replace(/\./g, '/');
+    const targetDir = path.join(__dirname, 'src', 'main', 'java', packagePath);
+    const targetFile = path.join(targetDir, `${answers.className}.java`);
 
-console.log('\n✅ Java 类生成成功！');
-console.log(`文件位置: ${path.relative(__dirname, targetFile)}`);
-console.log(`包名: ${packageName}`);
-console.log(`类名: ${className}`);
+    // 确保目录存在
+    fs.mkdirSync(targetDir, { recursive: true });
+
+    // 写入文件
+    fs.writeFileSync(targetFile, renderedContent);
+
+    console.log('\n✅ Java 类生成成功！');
+    console.log(`📄 add: ${path.relative(__dirname, targetFile)}`);
+    console.log(`使用了 Plop 模板: ${path.relative(__dirname, templatePath)}`);
+
+  } catch (error) {
+    console.error('❌ 生成失败:', error.message);
+    if (error.code === 'ENOENT' && error.path && error.path.includes('handlebars')) {
+      console.error('请安装 handlebars: npm install handlebars');
+    }
+    process.exit(1);
+  }
+}
+
+// 运行生成器
+generateJavaClass();

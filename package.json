@@ -11,9 +11,13 @@
     "generate": "plop java-class",
     "g": "plop java-class",
     "auto-generate": "node index.js",
-    "gen": "node generate.js"
+    "gen": "node generate.js",
+    "plop-api": "node index.mjs",
+    "plop-gen": "node generate.mjs"
   },
   "dependencies": {
+    "handlebars": "^4.7.8",
+    "node-plop": "^0.32.0",
     "plop": "^4.0.1"
   }
 }

@@ -1,6 +1,6 @@
 # 简单的 Java 类生成器
 
-这是一个使用 Plop.js 的简单 Java 类生成器。
+这是一个使用 Plop.js 的简单 Java 类生成器，提供了多种使用方法。
 
 ## 安装
 
@@ -12,7 +12,7 @@ npm install
 
 ## 使用方法
 
-### 1. 交互式生成（使用 Plop）
+### 1. 交互式生成（使用 Plop CLI）
 
 ```bash
 npm run generate
@@ -22,26 +22,42 @@ npm run g
 
 系统会询问你类名和包名。
 
-### 2. 自动生成（固定参数）
+### 2. 使用真正的 Plop API（推荐）
+
+#### 固定参数生成
+
+```bash
+npm run plop-api
+```
+
+使用固定参数：类名 `User`，包名 `com.example.demo`
+
+#### 命令行参数生成
+
+```bash
+# 使用默认参数（User, com.example.demo）
+npm run plop-gen
+
+# 使用自定义参数
+npm run plop-gen -- 类名 包名
+
+# 示例
+npm run plop-gen -- UserService com.example.service
+npm run plop-gen -- ProductController com.example.controller
+```
+
+### 3. 使用 Handlebars 模板引擎
+
+#### 固定参数生成
 
 ```bash
 npm run auto-generate
 ```
 
-使用固定参数：类名 `User`，包名 `com.example.demo`
-
-### 3. 命令行参数生成（推荐）
+#### 命令行参数生成
 
 ```bash
-# 使用默认参数（User, com.example.demo）
-npm run gen
-
-# 使用自定义参数
 npm run gen -- 类名 包名
-
-# 示例
-npm run gen -- UserService com.example.service
-npm run gen -- ProductController com.example.controller
 ```
 
 ## 生成的文件结构
@@ -54,16 +70,44 @@ src/
             └── example/
                 ├── demo/
                 │   └── User.java
-                └── service/
-                    └── UserService.java
+                ├── service/
+                │   └── UserService.java
+                └── order/
+                    └── OrderService.java
 ```
 
 ## 文件说明
 
-- `plopfile.js` - Plop 配置文件（交互式生成器）
-- `index.js` - 固定参数自动生成脚本
-- `generate.js` - 命令行参数生成脚本（推荐使用）
+### Plop 相关文件
+
+- `plopfile.js` - Plop 配置文件（所有方法共用）
 - `plop-templates/java-class.hbs` - Java 类模板文件
+
+### 不同的生成脚本
+
+- `index.mjs` - 使用真正 Plop API 的固定参数脚本（**推荐**）
+- `generate.mjs` - 使用真正 Plop API 的命令行参数脚本（**推荐**）
+- `index.js` - 使用 Handlebars 的固定参数脚本
+- `generate.js` - 使用 Handlebars 的命令行参数脚本
+
+## 推荐使用方法
+
+**最佳选择**：使用真正的 Plop API 版本（`.mjs` 文件）
+
+```bash
+# 固定参数
+npm run plop-api
+
+# 自定义参数
+npm run plop-gen -- OrderService com.example.order
+```
+
+这些版本：
+
+- ✅ 使用真正的 Plop API
+- ✅ 支持所有 Plop 功能和 helpers
+- ✅ 与 Plop 生态系统完全兼容
+- ✅ 更好的错误处理和调试信息
 
 ## 生成的 Java 类包含
 
@@ -78,12 +122,10 @@ src/
 - 类名：必须以大写字母开头，只包含字母和数字
 - 包名：必须符合 Java 包名规范（小写字母，用点分隔）
 
-## 示例
+## 技术说明
 
-```bash
-# 生成 UserService 类在 com.example.service 包中
-npm run gen -- UserService com.example.service
+- **Plop API 版本** (`.mjs`)：使用 ES 模块和真正的 `node-plop` API
+- **Handlebars 版本** (`.js`)：直接使用 Handlebars 模板引擎，兼容性更好
+- **交互式版本**：使用标准的 Plop CLI 界面
 
-# 生成 ProductController 类在 com.example.controller 包中
-npm run gen -- ProductController com.example.controller
-```
+所有版本都使用相同的模板文件 (`plop-templates/java-class.hbs`)，确保生成的代码一致性。
