@@ -107,23 +107,51 @@ module.exports = function (plop) {
 
           return true;
         }
+      },
+      {
+        type: 'input',
+        name: 'outputPath',
+        message: '输出 Java 类的路径（绝对路径或相对路径，留空则使用默认 src/main/java）：',
+        default: '',
+        validate: function (value) {
+          // 允许为空
+          if (!value) return true;
+          // 路径合法性简单校验
+          if (typeof value !== 'string') return '路径必须为字符串';
+          return true;
+        }
       }
     ],
     actions: function (data) {
       const path = require('path');
       let templateFile = data.templateFile;
+      let outputPath = data.outputPath;
 
-      // 如果不是绝对路径，解析为相对于当前工作目录的路径
+      // 模板文件绝对路径处理
       if (!path.isAbsolute(templateFile)) {
         templateFile = path.resolve(process.cwd(), templateFile);
       }
-
       console.log(`\n📁 使用模板文件: ${templateFile}`);
+
+      // 输出路径处理
+      let targetPath;
+      if (outputPath && typeof outputPath === 'string' && outputPath.trim() !== '') {
+        // 如果是绝对路径，直接用；否则相对项目根目录
+        if (path.isAbsolute(outputPath)) {
+          targetPath = path.join(outputPath, `${data.className}.java`);
+        } else {
+          targetPath = path.join(process.cwd(), outputPath, `${data.className}.java`);
+        }
+      } else {
+        // 默认路径
+        targetPath = path.join('src', 'main', 'java', data.packageName.replace(/\./g, '/'), `${data.className}.java`);
+      }
+      console.log(`\n📦 输出路径: ${targetPath}`);
 
       return [
         {
           type: 'add',
-          path: 'src/main/java/{{packageToPath packageName}}/{{className}}.java',
+          path: targetPath,
           templateFile: templateFile
         }
       ];

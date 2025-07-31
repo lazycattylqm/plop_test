@@ -52,7 +52,8 @@ const answers = {
   className: randomClassName,
   packageName: randomPackageName,
   templateType: randomTemplateType,
-  templateFile: templateMap[randomTemplateType]
+  templateFile: templateMap[randomTemplateType],
+  outputPath: '' // 使用默认路径，也可以设置为自定义路径
 };
 
 async function generateRandomJavaClass () {

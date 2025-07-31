@@ -6,7 +6,8 @@ const answers = {
   className: 'User',
   packageName: 'com.example.demo',
   templateType: 'basic',
-  templateFile: 'plop-templates/java-class.hbs'
+  templateFile: 'plop-templates/java-class.hbs',
+  outputPath: '' // 使用默认路径
 };
 
 async function generateJavaClass () {

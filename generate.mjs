@@ -3,11 +3,12 @@ import nodePlop from 'node-plop';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// 从命令行参数获取类名、包名和模板路径
+// 从命令行参数获取类名、包名、模板路径和输出路径
 const args = process.argv.slice(2);
 const className = args[0] || 'User';
 const packageName = args[1] || 'com.example.demo';
 const templateTypeOrPath = args[2] || 'basic';
+const outputPath = args[3] || ''; // 新增输出路径参数
 
 // 预定义的模板映射
 const templateMap = {
@@ -57,7 +58,8 @@ const answers = {
   className,
   packageName,
   templateType,
-  templateFile
+  templateFile,
+  outputPath
 };
 
 async function generateJavaClass () {
@@ -67,6 +69,7 @@ async function generateJavaClass () {
     console.log(`包名: ${answers.packageName}`);
     console.log(`模板类型: ${answers.templateType}`);
     console.log(`模板文件: ${answers.templateFile}`);
+    console.log(`输出路径: ${answers.outputPath || '默认路径'}`);
 
     // 使用 node-plop 加载配置 - 需要 await
     const plop = await nodePlop('./plopfile.js');

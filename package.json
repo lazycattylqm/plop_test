@@ -15,7 +15,8 @@
     "plop-api": "node index.mjs",
     "plop-gen": "node generate.mjs",
     "plop-random": "node random-generate.mjs",
-    "random": "node random-generate.mjs"
+    "random": "node random-generate.mjs",
+    "path-examples": "node path-examples.mjs"
   },
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
