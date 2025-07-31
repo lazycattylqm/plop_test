@@ -13,9 +13,12 @@
     "auto-generate": "node index.js",
     "gen": "node generate.js",
     "plop-api": "node index.mjs",
-    "plop-gen": "node generate.mjs"
+    "plop-gen": "node generate.mjs",
+    "plop-random": "node random-generate.mjs",
+    "random": "node random-generate.mjs"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "handlebars": "^4.7.8",
     "node-plop": "^0.32.0",
     "plop": "^4.0.1"
