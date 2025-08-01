@@ -24,6 +24,15 @@ for (let i = 1; i <= 3; i++) {
   console.log(`🔧 方法数量: ${methods.length}`);
   console.log(`📋 字段数量: ${fields.length}`);
 
+  // 显示生成的类内容
+  console.log('\n📄 生成的Java类内容:');
+  console.log('─'.repeat(80));
+  console.log(`📦 包名: ${result.packageName}`);
+  console.log(`📝 类名: ${result.className}`);
+  console.log('─'.repeat(80));
+  console.log(result.classContent);
+  console.log('─'.repeat(80));
+
   if (i < 3) {
     console.log('\n' + '─'.repeat(100));
   }
