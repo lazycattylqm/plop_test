@@ -19,6 +19,7 @@
     "enhanced-random": "node enhanced-random.mjs",
     "fake-java": "node random.gen.js",
     "super-random": "node enhanced-random.mjs",
+    "random-demo": "node random-demo.js",
     "path-examples": "node path-examples.mjs"
   },
   "dependencies": {

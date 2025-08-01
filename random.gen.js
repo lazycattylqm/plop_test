@@ -180,7 +180,39 @@ function generateClass () {
   // 类注释
   const classComment = `/**\n * ${lorem.generateSentences(2)}\n * \n * @author ${casual.full_name}\n * @version 1.0\n * @since ${new Date().getFullYear()}\n */`;
 
-  return `package ${packageName};\n\n${imports.join('\n')}\n\n${classComment}\n@Service\npublic class ${className} {\n\n${fields.join('\n')}\n${methods.join('\n')}\n\n}`;
+  // 生成完整的类内容
+  const classContent = `package ${packageName};\n\n${imports.join('\n')}\n\n${classComment}\n@Service\npublic class ${className} {\n\n${fields.join('\n')}\n${methods.join('\n')}\n\n}`;
+
+  // 返回三个值：包名、类名、类内容
+  return {
+    packageName: packageName,
+    className: className,
+    classContent: classContent
+  };
 }
 
-console.log(generateClass());
+// 生成随机类并返回结果
+function generateRandomJavaClass () {
+  const result = generateClass();
+
+  console.log('🎲 随机生成的 Java 类信息：');
+  console.log(`📦 包名: ${result.packageName}`);
+  console.log(`📝 类名: ${result.className}`);
+  console.log('📄 类内容:');
+  console.log('─'.repeat(80));
+  console.log(result.classContent);
+  console.log('─'.repeat(80));
+
+  return result;
+}
+
+// 如果直接运行此文件，显示生成的类
+if (require.main === module) {
+  generateRandomJavaClass();
+}
+
+// 导出函数供其他模块使用
+module.exports = {
+  generateClass,
+  generateRandomJavaClass
+};
