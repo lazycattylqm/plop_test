@@ -40,6 +40,17 @@ function generateField () {
   return `${mod} ${type} ${name} = ${randomValue(type)};`;
 }
 
+function fakeCodeBlock () {
+  const snippets = [
+    `int sum = 0;\n        for (int i = 0; i < 10; i++) {\n            sum += i;\n        }`,
+    `System.out.println("Debug info: " + ${random(names)});`,
+    `if (${random(names)} > 0) {\n            System.out.println("Positive");\n        } else {\n            System.out.println("Negative");\n        }`,
+    `${random(types)} tempVar = ${randomValue(random(types))};`,
+    `while (${random(names)} < 5) {\n            ${random(names)}++;\n        }`,
+  ];
+  return snippets[Math.floor(Math.random() * snippets.length)];
+}
+
 function generateMethod () {
   const returnType = random(types);
   const methodName = `${random(['get', 'calc', 'compute', 'fetch', 'find'])}${capitalize(random(names))}`;
@@ -53,15 +64,16 @@ function generateMethod () {
   }
 
   const paramStr = params.join(', ');
+  const bodySnippet = fakeCodeBlock();
   const returnStatement = returnType === 'void' ? '' : `\n        return ${randomReturn(returnType)};`;
 
-  return `${random(modifiers)} ${returnType} ${methodName}(${paramStr}) {\n        // TODO: implement${returnStatement}\n    }`;
+  return `${random(modifiers)} ${returnType} ${methodName}(${paramStr}) {\n        ${bodySnippet}${returnStatement}\n    }`;
 }
 
 function generateClass () {
   const className = `Fake${capitalize(random(names))}`;
-  const fieldCount = Math.floor(Math.random() * 4) + 2; // 2~5
-  const methodCount = Math.floor(Math.random() * 4) + 3; // 3~6
+  const fieldCount = Math.floor(Math.random() * 4) + 2;
+  const methodCount = Math.floor(Math.random() * 4) + 3;
 
   const fields = Array.from({ length: fieldCount }, () => `    ${generateField()};`);
   const methods = Array.from({ length: methodCount }, () => `\n    ${generateMethod()}`);
@@ -69,5 +81,4 @@ function generateClass () {
   return `public class ${className} {\n\n${fields.join('\n')}\n${methods.join('\n')}\n\n}`;
 }
 
-// 输出生成的 Java 类
 console.log(generateClass());
